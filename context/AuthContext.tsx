@@ -26,9 +26,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   }, []);
 
-  const login = async (email: string) => {
+  const login = async (email: string, username: string, password: string) => {
     setLoading(true);
-    const loggedInUser = await api.login(email);
+    const loggedInUser = await api.login(email, username, password);
     if (loggedInUser) {
       setUser(loggedInUser);
       localStorage.setItem('user', JSON.stringify(loggedInUser));

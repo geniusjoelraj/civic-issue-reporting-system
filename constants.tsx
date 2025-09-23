@@ -33,31 +33,31 @@ export const LogOutIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 export const MapPinIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
 );
 
 export const ThumbsUpIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 18.734V11.534l2.546-2.886a.5.5 0 01.679-.053l2.89 2.168L14 10zm-4-4V4a2 2 0 012-2h1a2 2 0 012 2v2" />
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 18.734V11.534l2.546-2.886a.5.5 0 01.679-.053l2.89 2.168L14 10zm-4-4V4a2 2 0 012-2h1a2 2 0 012 2v2" />
+  </svg>
 );
 
 export const RepeatIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 2l4 4-4 4" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h18M7 22l-4-4 4-4" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12H3" />
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 2l4 4-4 4" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h18M7 22l-4-4 4-4" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12H3" />
+  </svg>
 );
 
 export const CameraIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
 );
 
 export const DUMMY_AADHAAR_DB = new Set(['123456789012', '210987654321', '112233445566', '998877665544', '121212121212', '555666777888', '888777666555', '333444555666']);
@@ -106,7 +106,7 @@ export const DUMMY_ISSUES: Issue[] = [
     upvotes: 8,
     reposts: 1,
     updates: [
-        { updatedBy: 'a1', timestamp: new Date().toISOString(), updateText: 'Team has been dispatched to assess the issue.' }
+      { updatedBy: 'a1', timestamp: new Date().toISOString(), updateText: 'Team has been dispatched to assess the issue.' }
     ]
   },
   {
@@ -124,8 +124,8 @@ export const DUMMY_ISSUES: Issue[] = [
     upvotes: 25,
     reposts: 5,
     updates: [
-        { updatedBy: 'a1', timestamp: new Date(Date.now() - 3 * 86400000).toISOString(), updateText: 'Sanitation crew scheduled for pickup.' },
-        { updatedBy: 'a1', timestamp: new Date(Date.now() - 2 * 86400000).toISOString(), updateText: 'The trash has been collected and the area cleaned.' }
+      { updatedBy: 'a1', timestamp: new Date(Date.now() - 3 * 86400000).toISOString(), updateText: 'Sanitation crew scheduled for pickup.' },
+      { updatedBy: 'a1', timestamp: new Date(Date.now() - 2 * 86400000).toISOString(), updateText: 'The trash has been collected and the area cleaned.' }
     ],
     resolvedImageUrl: 'https://picsum.photos/seed/i3-resolved/800/600'
   },
@@ -159,7 +159,7 @@ export const DUMMY_ISSUES: Issue[] = [
     upvotes: 5,
     reposts: 0,
     updates: [
-      { updatedBy: 'a2', timestamp: new Date(Date.now() - 1 * 86400000).toISOString(), updateText: 'Cleanup crew has been notified and scheduled for this week.'}
+      { updatedBy: 'a2', timestamp: new Date(Date.now() - 1 * 86400000).toISOString(), updateText: 'Cleanup crew has been notified and scheduled for this week.' }
     ]
   },
   {
@@ -176,9 +176,9 @@ export const DUMMY_ISSUES: Issue[] = [
     createdAt: new Date(Date.now() - 10 * 86400000).toISOString(),
     upvotes: 30,
     reposts: 7,
-     updates: [
-        { updatedBy: 'a2', timestamp: new Date(Date.now() - 9 * 86400000).toISOString(), updateText: 'Water department dispatched.' },
-        { updatedBy: 'a2', timestamp: new Date(Date.now() - 9 * 86400000 + 3600000).toISOString(), updateText: 'The leak has been repaired.' }
+    updates: [
+      { updatedBy: 'a2', timestamp: new Date(Date.now() - 9 * 86400000).toISOString(), updateText: 'Water department dispatched.' },
+      { updatedBy: 'a2', timestamp: new Date(Date.now() - 9 * 86400000 + 3600000).toISOString(), updateText: 'The leak has been repaired.' }
     ],
     resolvedImageUrl: 'https://picsum.photos/seed/i6-resolved/800/600'
   },
@@ -212,7 +212,7 @@ export const DUMMY_ISSUES: Issue[] = [
     upvotes: 22,
     reposts: 6,
     updates: [
-        { updatedBy: 'a1', timestamp: new Date(Date.now() - 1 * 86400000).toISOString(), updateText: 'Transportation department has been alerted and will investigate.' }
+      { updatedBy: 'a1', timestamp: new Date(Date.now() - 1 * 86400000).toISOString(), updateText: 'Transportation department has been alerted and will investigate.' }
     ]
   },
   // Fix: Corrected typo 'new D' to 'new Date' and completed the issue object.
