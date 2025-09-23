@@ -17,7 +17,15 @@ type NewUserPayload = {
 };
 
 let issues: Issue[] = [...DUMMY_ISSUES];
+
+// for all posts
+let posts = await axios.get(API_BASE_URL + "/posts");
+let allIssues: Issue[] = posts.data
+console.log(allIssues);
+
+
 let users: User[] = [...DUMMY_USERS];
+
 
 const simulateDelay = <T,>(data: T, delay = 500): Promise<T> =>
   new Promise(resolve => setTimeout(() => resolve(data), delay));
@@ -74,14 +82,28 @@ export enum UserType {
   Citizen = 'citizen',
   Authority = 'authority',
 }
-export const login = (email: string, username: string, password: string): Promise<User | null> => {
+export const login = (email: string, password: string) => {
+  console.log(email);
+  console.log(password);
+
+
   const log_cred = {
-    username: username,
+    username: email,
     password: password
   }
-  axios.post(API_BASE_URL + "/auth/login", log_cred)
-  const user: User = { id: 'u1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Citizen, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
-  return simulateDelay(user || null);
+  axios.post(
+    API_BASE_URL + "/auth/login",
+    log_cred
+  )
+    .then(res => {
+      document.cookie = "jwtauth=" + res.data.token + "; expires=" + res.data.expiresIn + "; path=/";
+      const user: User = { id: 'u1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Citizen, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
+      return simulateDelay(user);
+    })
+    .catch(err => {
+      alert("Incorrect credentials")
+      return simulateDelay(null);
+    })
 };
 
 // --- Issues ---
@@ -103,6 +125,20 @@ export const createIssue = (issueData: Omit<Issue, 'id' | 'createdAt' | 'upvotes
     upvotes: 0,
     reposts: 0,
   };
+  const issueNew = {
+    "title": issueData.title,
+    "description": issueData.description,
+    "departmentId": 1,
+    "status": "OPEN",
+    "lat": 12.9715987,
+    "lon": 77.594566
+  }
+
+  axios.post(API_BASE_URL + "/posts", issueNew)
+    .then((res) => {
+      console.log(res);
+
+    })
   issues.unshift(newIssue);
   return simulateDelay(newIssue);
 };

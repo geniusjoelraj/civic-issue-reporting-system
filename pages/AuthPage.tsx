@@ -48,7 +48,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const success = await login(email);
+    const success = await login(email, password);
     if (success) {
       navigate('/');
     } else {

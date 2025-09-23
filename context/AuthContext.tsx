@@ -7,7 +7,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   userType: UserType | null;
-  login: (email: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
 }
@@ -26,9 +26,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   }, []);
 
-  const login = async (email: string, username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     setLoading(true);
-    const loggedInUser = await api.login(email, username, password);
+    const loggedInUser = await api.login(email, password);
     if (loggedInUser) {
       setUser(loggedInUser);
       localStorage.setItem('user', JSON.stringify(loggedInUser));

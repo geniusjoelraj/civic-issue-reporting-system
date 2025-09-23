@@ -108,7 +108,7 @@ const CreateIssuePage: React.FC = () => {
           {location && (
             <div className="flex items-center p-3 bg-dark-800 border border-dark-700 rounded-md text-sm text-dark-200">
               <MapPinIcon className="w-5 h-5 mr-2 text-primary" />
-              <span>Location Captured: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}</span>
+              <span>Location Captured: {location.lat}, {location.lng}</span>
             </div>
           )}
 
