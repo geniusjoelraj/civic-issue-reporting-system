@@ -80,7 +80,7 @@ export const login = (email: string, username: string, password: string): Promis
     password: password
   }
   axios.post(API_BASE_URL + "/auth/login", log_cred)
-  const user: User = { id: 'u1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Citizen, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
+  const user: User = { id: 'a1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Authority, verified: true, avatarUrl: 'https://mockmind-api.uifaces.co/content/human/41.jpg', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
   return simulateDelay(user || null);
 };
 
