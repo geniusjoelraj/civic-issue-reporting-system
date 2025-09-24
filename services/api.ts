@@ -2,6 +2,7 @@ import { log } from 'console';
 import { DUMMY_ISSUES, DUMMY_USERS, DUMMY_AADHAAR_DB } from '../constants';
 import { Issue, User } from '../types';
 import axios from 'axios';
+import { redirect } from 'react-router-dom';
 
 const API_BASE_URL = "http://localhost:1947/api/v1"
 type RequestOptions = {
@@ -38,20 +39,20 @@ export const checkUsername = (username: string): Promise<{ unique: boolean }> =>
 export const checkEmail = (email: string): Promise<{ unique: boolean }> =>
   simulateDelay({ unique: !users.some(u => u.email === email) });
 
-export const registerUser = async ({ username, password }) => {
-  // const newUser: User = {
-  //   ...userData,
-  //   id: `u${users.length + 1}`,
-  //   verified: false,
-  //   joinedDate: new Date().toISOString(),
-  // };
+export const registerUser = async (userData) => {
+  const newUser: User = {
+    ...userData,
+    id: `u${users.length + 1}`,
+    verified: true,
+    joinedDate: new Date().toISOString(),
+  };
   // users.push(newUser);
   // return simulateDelay(newUser);
-  const newUser: NewUserPayload = {
-    "username": username,
-    "password": password,
-    "role": "USER"
-  }
+  // const newUser: NewUserPayload = {
+  //   "username": username,
+  //   "password": password,
+  //   "role": "USER"
+  // }
   axios.post(API_BASE_URL + "/users", newUser)
     .then((res) => {
       console.log(res);
@@ -86,7 +87,6 @@ export const login = (email: string, password: string) => {
   console.log(email);
   console.log(password);
 
-
   const log_cred = {
     username: email,
     password: password
@@ -97,8 +97,10 @@ export const login = (email: string, password: string) => {
   )
     .then(res => {
       document.cookie = "jwtauth=" + res.data.token + "; expires=" + res.data.expiresIn + "; path=/";
-      const user: User = { id: 'u1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Citizen, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
-      return simulateDelay(user);
+      const user: User = { id: 'a1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Authority, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
+      localStorage.setItem('user', JSON.stringify(user));
+      window.location.href = "/"
+      return user;
     })
     .catch(err => {
       alert("Incorrect credentials")
@@ -116,6 +118,11 @@ export const getIssueById = (id: string): Promise<Issue | null> => {
   const issue = issues.find(i => i.id === id);
   return simulateDelay(issue || null);
 };
+
+export const getLoc = (lat: number, lon: number) => {
+  const location = axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=13.1254,80.1559&key=AIzaSyDiuJnYHdpR_9CkVUkXLzIM9HQw_T0nAzI");
+  console.log(location);
+}
 
 export const createIssue = (issueData: Omit<Issue, 'id' | 'createdAt' | 'upvotes' | 'reposts'>): Promise<Issue> => {
   const newIssue: Issue = {

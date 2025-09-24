@@ -128,13 +128,14 @@ const RegisterForm: React.FC<{ onRegisterSuccess: () => void }> = ({ onRegisterS
     try {
       const user = await api.registerUser({
         username: formData.username,
-        password: formData.password
-        // email: formData.email,
-        // mobile: formData.mobile,
-        // aadhaar: formData.aadhaar,
-        // type: formData.userType,
-        // avatarUrl: `https://i.pravatar.cc/150?u=${formData.username}`,
+        password: formData.password,
+        email: formData.email,
+        mobile: formData.mobile,
+        aadhaar: formData.aadhaar,
+        type: formData.userType,
+        avatarUrl: `https://i.pravatar.cc/150?u=${formData.username}`,
       });
+
       setNewUser(user);
       setStep(2);
     } catch (err) {

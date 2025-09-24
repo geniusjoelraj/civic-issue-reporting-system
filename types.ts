@@ -1,6 +1,6 @@
 export enum UserType {
-  Citizen = 'citizen',
-  Authority = 'authority',
+  Citizen = 'Citizen',
+  Authority = 'Authority',
 }
 
 export enum IssueStatus {

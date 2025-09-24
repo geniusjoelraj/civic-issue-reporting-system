@@ -2,6 +2,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { User, UserType } from '../types';
 import * as api from '../services/api';
+import { redirect } from 'react-router-dom';
 
 interface AuthContextType {
   user: User | null;
@@ -28,10 +29,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     setLoading(true);
-    const loggedInUser = await api.login(email, password);
+    const loggedInUser: any = await api.login(email, password);
     if (loggedInUser) {
       setUser(loggedInUser);
       localStorage.setItem('user', JSON.stringify(loggedInUser));
+      redirect("/");
       setLoading(false);
       return true;
     }
