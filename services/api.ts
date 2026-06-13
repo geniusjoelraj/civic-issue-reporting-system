@@ -1,8 +1,6 @@
-import { log } from 'console';
 import { DUMMY_ISSUES, DUMMY_USERS, DUMMY_AADHAAR_DB } from '../constants';
 import { Issue, User } from '../types';
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
 
 const API_BASE_URL = "http://localhost:1947/api/v1"
 type RequestOptions = {
@@ -19,11 +17,6 @@ type NewUserPayload = {
 
 let issues: Issue[] = [...DUMMY_ISSUES];
 
-// for all posts
-let posts = await axios.get(API_BASE_URL + "/posts");
-let allIssues: Issue[] = posts.data
-console.log(allIssues);
-
 
 let users: User[] = [...DUMMY_USERS];
 
@@ -39,25 +32,20 @@ export const checkUsername = (username: string): Promise<{ unique: boolean }> =>
 export const checkEmail = (email: string): Promise<{ unique: boolean }> =>
   simulateDelay({ unique: !users.some(u => u.email === email) });
 
-export const registerUser = async (userData) => {
+export const registerUser = async (userData: any): Promise<User> => {
   const newUser: User = {
     ...userData,
     id: `u${users.length + 1}`,
     verified: true,
     joinedDate: new Date().toISOString(),
   };
-  // users.push(newUser);
-  // return simulateDelay(newUser);
-  // const newUser: NewUserPayload = {
-  //   "username": username,
-  //   "password": password,
-  //   "role": "USER"
-  // }
-  axios.post(API_BASE_URL + "/users", newUser)
-    .then((res) => {
-      console.log(res);
-
-    })
+  try {
+    await axios.post(API_BASE_URL + "/users", newUser);
+  } catch (err) {
+    console.warn('Backend unavailable, using local mock data for registration.');
+  }
+  users.push(newUser);
+  return simulateDelay(newUser);
 };
 
 export const verifyOtp = (otp: string, type: 'email' | 'mobile'): Promise<{ success: boolean }> => {
@@ -83,29 +71,21 @@ export enum UserType {
   Citizen = 'citizen',
   Authority = 'authority',
 }
-export const login = (email: string, password: string) => {
-  console.log(email);
-  console.log(password);
-
-  const log_cred = {
-    username: email,
-    password: password
+export const login = async (email: string, password: string): Promise<User | null> => {
+  try {
+    const res = await axios.post(API_BASE_URL + "/auth/login", { username: email, password });
+    document.cookie = "jwtauth=" + res.data.token + "; expires=" + res.data.expiresIn + "; path=/";
+    const user: User = { id: 'a1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Authority, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' };
+    return user;
+  } catch (err) {
+    console.warn('Backend unavailable, falling back to local mock login.');
+    // Fall back to local mock user lookup
+    const foundUser = users.find(u => u.username === email || u.email === email);
+    if (foundUser) {
+      return simulateDelay(foundUser);
+    }
+    return simulateDelay(null);
   }
-  axios.post(
-    API_BASE_URL + "/auth/login",
-    log_cred
-  )
-    .then(res => {
-      document.cookie = "jwtauth=" + res.data.token + "; expires=" + res.data.expiresIn + "; path=/";
-      const user: User = { id: 'a1', username: email, email: 'demo@gmail.com', mobile: '1234567890', aadhaar: '123456789012', type: UserType.Authority, verified: true, avatarUrl: 'https://i.pravatar.cc/150?u=u1', bio: 'Just a citizen trying to make my neighborhood a better place. Reporting issues one pothole at a time.', joinedDate: '2023-01-15T10:00:00Z' }
-      localStorage.setItem('user', JSON.stringify(user));
-      window.location.href = "/"
-      return user;
-    })
-    .catch(err => {
-      alert("Incorrect credentials")
-      return simulateDelay(null);
-    })
 };
 
 // --- Issues ---
@@ -119,12 +99,17 @@ export const getIssueById = (id: string): Promise<Issue | null> => {
   return simulateDelay(issue || null);
 };
 
-export const getLoc = (lat: number, lon: number) => {
-  const location = axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=13.1254,80.1559&key=AIzaSyDiuJnYHdpR_9CkVUkXLzIM9HQw_T0nAzI");
-  console.log(location);
-}
+export const getLoc = async (lat: number, lon: number) => {
+  try {
+    const location = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=AIzaSyDiuJnYHdpR_9CkVUkXLzIM9HQw_T0nAzI`);
+    return location.data;
+  } catch (err) {
+    console.warn('Geocoding API unavailable.');
+    return null;
+  }
+};
 
-export const createIssue = (issueData: Omit<Issue, 'id' | 'createdAt' | 'upvotes' | 'reposts'>): Promise<Issue> => {
+export const createIssue = async (issueData: Omit<Issue, 'id' | 'createdAt' | 'upvotes' | 'reposts'>): Promise<Issue> => {
   const newIssue: Issue = {
     ...issueData,
     id: `i${issues.length + 1}`,
@@ -132,20 +117,18 @@ export const createIssue = (issueData: Omit<Issue, 'id' | 'createdAt' | 'upvotes
     upvotes: 0,
     reposts: 0,
   };
-  const issueNew = {
-    "title": issueData.title,
-    "description": issueData.description,
-    "departmentId": 1,
-    "status": "OPEN",
-    "lat": 12.9715987,
-    "lon": 77.594566
+  try {
+    await axios.post(API_BASE_URL + "/posts", {
+      title: issueData.title,
+      description: issueData.description,
+      departmentId: 1,
+      status: "OPEN",
+      lat: issueData.location.lat,
+      lon: issueData.location.lng,
+    });
+  } catch (err) {
+    console.warn('Backend unavailable, issue saved locally only.');
   }
-
-  axios.post(API_BASE_URL + "/posts", issueNew)
-    .then((res) => {
-      console.log(res);
-
-    })
   issues.unshift(newIssue);
   return simulateDelay(newIssue);
 };
